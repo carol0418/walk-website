@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/ins.html"
+    },
+    {
+      "src": "/note.html",
+      "dest": "/note.html"
+    },
+    {
+      "src": "/web.html",
+      "dest": "/web.html"
+    },
+    {
+      "src": "/web.css",
+      "dest": "/web.css"
+    },
+    {
+      "src": "/web.js",
+      "dest": "/web.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/ins.html"
+    }
+  ]
+}
