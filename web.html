@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <title>街景評分地圖</title>
+    <link rel="stylesheet" href="web.css">
+</head>
+
+<body>
+    <div id="message-container"></div>
+
+    <header>
+    <h1><a href="ins.html">街景評分地圖</a></h1>
+    <nav>
+    <ul>
+        <li><a href="ins.html">關於我們</a></li>
+        <li><a href="note.html">操作指南</a></li>
+        <li><a href="web.html">開始操作</a></li>
+    </ul>
+    </nav>
+    </header>
+
+    <main>
+    <div class="map-and-results-container">
+        <div id="map-controls-panel">
+            </div>
+        <div id="map"></div>
+        <div id="results-display">
+            <div id="path-name-input-card" class="input-card" style="display:none;">
+                <h3>為新路徑命名</h3>
+                <input type="text" id="new-path-name" placeholder="輸入路徑名稱 (例如: 我的路線A)">
+                <div class="button-group">
+                    <button id="confirm-path-name" class="map-control-button confirm-button">確認</button>
+                    <button id="cancel-path-name" class="map-control-button cancel-button">取消</button>
+                </div>
+            </div>
+            </div>
+    </div>
+
+    <script async defer id="google-maps-script"></script>
+
+    <script src="web.js"></script>
+    
+    </main>
+    
+    <div id="image-preview-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-path-name">路徑圖片預覽</h3>
+                <button id="modal-close-button" class="modal-close-button">&times;</button>
+            </div>
+            <div id="modal-image-container" class="image-container-scrollable">
+                </div>
+        </div>
+    </div>
+
+    <footer>
+            <p>Copyright © 2025 不動三劍客</p>
+    </footer>
+</body>
+</html>
