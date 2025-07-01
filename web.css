@@ -11,7 +11,7 @@
 
 body {
     font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif, 'Noto Sans TC'; /* 統一且更現代的字體堆疊 */
-    background-image: url('images/backgrond.jpg'); /* 確保圖片路徑相對於 CSS 檔案正確 */
+    background-image: url('https://carol0418.github.io/walk-website/images/backgrond.jpg'); /* 確保圖片路徑相對於 CSS 檔案正確 */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed; /* 背景固定不滾動 */
@@ -49,7 +49,7 @@ header h1 a::before {
    margin-right: 8px;
    margin-bottom: 5px;
    vertical-align: middle;
-   background-image: url('images/walk.png'); /* 使用 background-image */
+   background-image: url('https://carol0418.github.io/walk-website/images/walk.png'); /* 使用 background-image */
    background-size: contain; /* 確保圖片完整顯示並縮放 */
    background-repeat: no-repeat;
    background-position: center;
