@@ -506,7 +506,7 @@ function generateStreetViewImageUrls(pathCoordinatesArray) {
     console.log("生成的街景圖片 URLs:", imageUrls);
     return imageUrls;
 }
-const BACKEND_API_ENDPOINT = 'http://127.0.0.1:5000/predict_street_scores'
+const BACKEND_API_ENDPOINT = 'https://your-flask-app-cpr3fyor5q-de.a.run.app/predict_street_scores'
 async function sendImagesToBackendForAllPaths() {
     if (allPathsData.length === 0) {
         showTemporaryMessage("地圖上沒有任何路徑。請先繪製路徑！", 'info');
