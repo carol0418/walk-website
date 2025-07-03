@@ -96,8 +96,8 @@ function initMap() {
     }
 
     map = new google.maps.Map(mapElement, {
-        center: {lat: 24.9358, lng: 121.3664},
-        zoom: 16,
+        center: {lat: 23.7, lng: 121.0},
+        zoom: 7.5,
         mapTypeControl: false,
         streetViewControl: false
     });
