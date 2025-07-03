@@ -658,8 +658,8 @@ footer{
     font-size: 1.48em; /* 調整字體大小 */
     color: #768572;
     text-align: center;
-    margin-top: -6px;
-    margin-bottom: 12px;
+    margin-top: -10px;
+    margin-bottom: 40px;
 }
 
 /* 【新增的樣式】 */
@@ -729,6 +729,7 @@ footer{
     padding: 14px 38px;
     font-size: 1.15em;
     font-weight: 500;
+    border-radius: 16px; /* 更大的圓角 */
     color: #fff;
     background: #50b06b; /* 充滿生機感的森林綠 */
     overflow: hidden;
@@ -772,6 +773,7 @@ footer{
 .btn-1.btn-primary {
     background: #ededed;; 
     color: #343a40; /* 深色文字 */
+    border-radius: 16px; /* 更大的圓角 */
     box-shadow: 0 3px 8px rgba(99, 112, 96, 0.15); /* 柔和陰影 */
 }
 
