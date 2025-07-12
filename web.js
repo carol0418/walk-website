@@ -5,7 +5,7 @@ let allPathsData = []; // 儲存所有路徑的數據
 let currentPathIndex = -1; // 當前正在繪製的路徑的索引
 const MAX_PATH_LENGTH_KM = 1.5; // 最大路徑長度 (公里)
 
-const BACKEND_API_KEY_ENDPOINT = 'https://your-flask-app-cpr3fyor5q-de.a.run.app/get_maps_api_key';
+const BACKEND_API_KEY_ENDPOINT = 'https://s-model-472816681603.asia-east1.run.app/get_maps_api_key';
 let Maps_API_KEY_FROM_BACKEND = '';
 
 // DOM 元素引用
@@ -483,7 +483,7 @@ function generateStreetViewImageUrls(pathCoordinatesArray) {
     return imageUrls;
 }
 
-const BACKEND_API_ENDPOINT = 'https://your-flask-app-cpr3fyor5q-de.a.run.app/predict_street_scores'
+const BACKEND_API_ENDPOINT = 'https://s-model-472816681603.asia-east1.run.app/predict_street_scores'
 async function sendImagesToBackendForAllPaths() {
     if (allPathsData.length === 0) {
         showTemporaryMessage("地圖上沒有任何路徑。請先繪製路徑！", 'info');
