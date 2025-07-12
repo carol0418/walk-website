@@ -1,4 +1,4 @@
-// web.js (請用以下內容覆蓋您的檔案)
+// web.js (已整合最高分標紅功能)
 
 let map;
 let allPathsData = []; // 儲存所有路徑的數據
@@ -17,15 +17,14 @@ let messageContainer;
 let undoLastPointButton;
 let mapControlsPanel;
 
-// 【新增】: 彈出視窗 DOM 元素引用
+// 彈出視窗 DOM 元素引用
 let imagePreviewModal;
 let modalPathName;
 let modalImageContainer;
 let modalCloseButton;
 
-// 載入 Google Maps 腳本 (無變更)
+// 載入 Google Maps 腳本
 function loadGoogleMapsScript() {
-    // ... 此函式內容不變 ...
     const script = document.getElementById('google-maps-script');
     if (!script) {
         console.error("找不到 ID 為 'google-maps-script' 的腳本標籤。");
@@ -36,9 +35,8 @@ function loadGoogleMapsScript() {
     document.head.appendChild(script);
 }
 
-// 頁面載入後獲取 API 金鑰 (無變更)
+// 頁面載入後獲取 API 金鑰
 document.addEventListener('DOMContentLoaded', async () => {
-    // ... 此事件監聽器內容不變 ...
     try {
         const response = await fetch(BACKEND_API_KEY_ENDPOINT);
         if (!response.ok) {
@@ -59,9 +57,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// 顯示臨時訊息 (無變更)
+// 顯示臨時訊息
 function showTemporaryMessage(message, type = 'info', duration = 3000) {
-    // ... 此函式內容不變 ...
     if (!messageContainer) {
         console.error("Message container not found.");
         return;
@@ -86,9 +83,8 @@ function showTemporaryMessage(message, type = 'info', duration = 3000) {
     }, duration);
 }
 
-// 初始化地圖 (有修改)
+// 初始化地圖
 function initMap() {
-    // ... (初始化 map, searchInput, marker 等部分無變更) ...
     const mapElement = document.getElementById('map');
     if (!mapElement) {
         console.error("找不到 ID 為 'map' 的地圖容器元素。請確保您的 HTML 中有 <div id='map'></div>");
@@ -174,11 +170,10 @@ function initMap() {
         map.controls[google.maps.ControlPosition.TOP_RIGHT].push(mapControlsPanel);
     }
 
-    // ... (建立按鈕並添加到 mapControlsPanel 的部分無變更) ...
     const newPathButton = document.createElement('button');
     newPathButton.textContent = '開始新路徑';
     newPathButton.classList.add('map-control-button');
-    mapControlsPanel.appendChild(newPathButton); // 添加到新的面板
+    mapControlsPanel.appendChild(newPathButton);
     newPathButton.addEventListener('click', () => {
         pathNameInputCard.style.display = 'block';
         newPathNameInput.value = `路徑 ${allPathsData.length + 1}`;
@@ -191,23 +186,22 @@ function initMap() {
         }
     });
 
-    // 撤銷上一個點按鈕
     undoLastPointButton = document.createElement('button');
     undoLastPointButton.textContent = '撤銷上一個點';
     undoLastPointButton.classList.add('map-control-button');
-    mapControlsPanel.appendChild(undoLastPointButton); // 添加到新的面板
+    mapControlsPanel.appendChild(undoLastPointButton);
     undoLastPointButton.addEventListener('click', undoLastPoint);
 
     const calculateButton = document.createElement('button');
     calculateButton.textContent = '計算路徑分數';
     calculateButton.classList.add('map-control-button');
-    mapControlsPanel.appendChild(calculateButton); // 添加到新的面板
+    mapControlsPanel.appendChild(calculateButton);
     calculateButton.addEventListener('click', sendImagesToBackendForAllPaths);
 
     const clearAllButton = document.createElement('button');
     clearAllButton.textContent = '清除所有路徑';
     clearAllButton.classList.add('map-control-button');
-    mapControlsPanel.appendChild(clearAllButton); // 添加到新的面板
+    mapControlsPanel.appendChild(clearAllButton);
     clearAllButton.addEventListener('click', clearAllPaths);
 
     pathNameInputCard = document.getElementById('path-name-input-card');
@@ -226,7 +220,6 @@ function initMap() {
     initialPrompt.textContent = '點擊「開始新路徑」按鈕以繪製您的第一條路徑。';
     resultsDisplay.appendChild(initialPrompt);
 
-    // 【新增】: 獲取彈出視窗元素並綁定關閉事件
     imagePreviewModal = document.getElementById('image-preview-modal');
     modalPathName = document.getElementById('modal-path-name');
     modalImageContainer = document.getElementById('modal-image-container');
@@ -234,17 +227,14 @@ function initMap() {
 
     modalCloseButton.addEventListener('click', closeImagePreviewModal);
     imagePreviewModal.addEventListener('click', (e) => {
-        // 如果點擊的是半透明背景，而不是內容區域，則關閉視窗
         if (e.target.id === 'image-preview-modal') {
             closeImagePreviewModal();
         }
     });
 
-
     console.log("Google 地圖已初始化並準備好接收點擊事件。");
 }
 
-// ... (handleConfirmPathName, handleCancelPathName, addLatLng, undoLastPoint, deletePath, clearAllPaths 等函式無變更) ...
 function handleConfirmPathName() {
     let pathName = newPathNameInput.value.trim();
     if (pathName === "") {
@@ -280,6 +270,7 @@ function handleConfirmPathName() {
     showTemporaryMessage(`已創建新路徑: ${pathName}`, 'success');
     displayResultsOnWebsite();
 }
+
 function handleCancelPathName() {
     pathNameInputCard.style.display = 'none';
     newPathNameInput.value = '';
@@ -294,6 +285,7 @@ function handleCancelPathName() {
         resultsDisplay.appendChild(initialPrompt);
     }
 }
+
 function addLatLng(latLng) {
     if (pathNameInputCard.style.display === 'block') {
         showTemporaryMessage("請先確認或取消路徑名稱輸入！", 'info');
@@ -324,6 +316,7 @@ function addLatLng(latLng) {
     console.log(`路徑 ID ${currentPathIndex} (${currentPath.name}) 添加點: Lat ${latLng.lat().toFixed(6)}, Lng ${latLng.lng().toFixed(6)}。當前路徑點數: ${currentPath.coordinates.length}, 長度: ${currentPath.length.toFixed(2)} 公里。`);
     displayResultsOnWebsite();
 }
+
 function undoLastPoint() {
     if (currentPathIndex === -1 || allPathsData[currentPathIndex].coordinates.length === 0) {
         showTemporaryMessage("當前路徑沒有點可以撤銷。", 'info');
@@ -331,21 +324,21 @@ function undoLastPoint() {
     }
 
     const currentPath = allPathsData[currentPathIndex];
-    currentPath.coordinates.pop(); // 移除最後一個座標
-    currentPath.polyline.setPath(currentPath.coordinates); // 更新 Polyline
+    currentPath.coordinates.pop(); 
+    currentPath.polyline.setPath(currentPath.coordinates);
 
-    // 重新計算路徑長度
     if (currentPath.coordinates.length > 0) {
         const newLengthMeters = google.maps.geometry.spherical.computeLength(currentPath.coordinates);
         currentPath.length = newLengthMeters / 1000;
     } else {
-        currentPath.length = 0; // 如果沒有點了，長度為0
+        currentPath.length = 0;
     }
 
     console.log(`已撤銷路徑 ID ${currentPathIndex} (${currentPath.name}) 的最後一個點。剩餘點數: ${currentPath.coordinates.length}, 長度: ${currentPath.length.toFixed(2)} 公里。`);
     showTemporaryMessage("已撤銷上一個點。", 'info');
-    displayResultsOnWebsite(); // 更新顯示
+    displayResultsOnWebsite();
 }
+
 function deletePath(pathIdToDelete) {
     if (pathIdToDelete < 0 || pathIdToDelete >= allPathsData.length) {
         console.warn(`嘗試刪除不存在的路徑 ID: ${pathIdToDelete}`);
@@ -354,28 +347,25 @@ function deletePath(pathIdToDelete) {
     }
 
     const pathToDelete = allPathsData[pathIdToDelete];
-    pathToDelete.polyline.setMap(null); // 從地圖上移除 Polyline
+    pathToDelete.polyline.setMap(null);
 
-    // 從陣列中移除該路徑
     allPathsData.splice(pathIdToDelete, 1);
 
-    // 重新調整剩餘路徑的 ID
     allPathsData.forEach((path, index) => {
         path.id = index;
     });
 
-    // 如果刪除的是當前正在繪製的路徑，則重置 currentPathIndex
     if (currentPathIndex === pathIdToDelete) {
-        currentPathIndex = -1; // 或者可以設定為新的最後一條路徑的索引，這裡選擇 -1
+        currentPathIndex = -1;
     } else if (currentPathIndex > pathIdToDelete) {
-        // 如果刪除的路徑在當前路徑之前，則 currentPathIndex 需要減 1
         currentPathIndex--;
     }
 
     console.log(`已刪除路徑 ID ${pathIdToDelete} (${pathToDelete.name})。`);
     showTemporaryMessage(`已刪除路徑: ${pathToDelete.name}`, 'success');
-    displayResultsOnWebsite(); // 更新顯示
+    displayResultsOnWebsite();
 }
+
 function clearAllPaths() {
     allPathsData.forEach(path => {
         path.polyline.setMap(null);
@@ -396,14 +386,12 @@ function clearAllPaths() {
     showTemporaryMessage("所有路徑已清除！", 'success');
 }
 
-
-// ... (createStreetViewUrl, getPointAtDistance, generateStreetViewImageUrls, sendImagesToBackendForAllPaths 等函式無變更) ...
 function createStreetViewUrl(latLng, heading, size, fov, pitch, angleOffset) {
     const location = `${latLng.lat()},${latLng.lng()}`;
-    // 應用偏移量並確保在 0-360 度範圍內
     const finalHeading = (heading + angleOffset + 360) % 360; 
     return `https://maps.googleapis.com/maps/api/streetview?size=${size}&location=${location}&fov=${fov}&heading=${finalHeading}&pitch=${pitch}&key=${Maps_API_KEY_FROM_BACKEND}`;
 }
+
 function getPointAtDistance(path, distance) {
     if (distance < 0) return null;
 
@@ -413,15 +401,15 @@ function getPointAtDistance(path, distance) {
         const p2 = path[i+1];
         const segmentLength = google.maps.geometry.spherical.computeDistanceBetween(p1, p2);
 
-        // 如果目標距離落在此線段內
         if (cumulativeDistance + segmentLength >= distance) {
             const fraction = (distance - cumulativeDistance) / segmentLength;
             return google.maps.geometry.spherical.interpolate(p1, p2, fraction);
         }
         cumulativeDistance += segmentLength;
     }
-    return null; // 目標距離超出路徑總長
+    return null;
 }
+
 function generateStreetViewImageUrls(pathCoordinatesArray) {
     if (pathCoordinatesArray.length === 0) {
         console.warn("路徑中沒有點，無法生成街景圖片 URL。");
@@ -432,22 +420,17 @@ function generateStreetViewImageUrls(pathCoordinatesArray) {
     const size = "600x400";
     const fov = "90"; 
     const pitch = "-5";
-    // 從上次對話中保留的固定角度偏移量，正數為順時針，負數為逆時針
     const angleOffset = 45; 
-    const interval = 100; // 每隔 100 公尺擷取一張圖片
+    const interval = 100;
 
-    // 計算路徑總長度 (公尺)
     const totalPathLength = google.maps.geometry.spherical.computeLength(pathCoordinatesArray);
 
-    // 1. 加入起點圖片
     let startPointHeading = 0;
     if (pathCoordinatesArray.length > 1) {
-        // 如果有多個點，方向朝向第二個點
         startPointHeading = google.maps.geometry.spherical.computeHeading(pathCoordinatesArray[0], pathCoordinatesArray[1]);
     }
     imageUrls.push(createStreetViewUrl(pathCoordinatesArray[0], startPointHeading, size, fov, pitch, angleOffset));
 
-    // 2. 每 100 公尺加入圖片
     for (let currentDistance = interval; currentDistance < totalPathLength; currentDistance += interval) {
         const interpolatedPoint = getPointAtDistance(pathCoordinatesArray, currentDistance);
 
@@ -456,7 +439,6 @@ function generateStreetViewImageUrls(pathCoordinatesArray) {
             let segmentStartIndex = -1;
             let cumulativeSegmentDistance = 0;
 
-            // 找出 interpolatedPoint 所在的線段，以決定其方向
             for (let i = 0; i < pathCoordinatesArray.length - 1; i++) {
                 const p1 = pathCoordinatesArray[i];
                 const p2 = pathCoordinatesArray[i+1];
@@ -470,25 +452,20 @@ function generateStreetViewImageUrls(pathCoordinatesArray) {
             }
 
             if (segmentStartIndex !== -1 && segmentStartIndex < pathCoordinatesArray.length - 1) {
-                // 方向為該線段的方向
                 pointHeading = google.maps.geometry.spherical.computeHeading(pathCoordinatesArray[segmentStartIndex], pathCoordinatesArray[segmentStartIndex + 1]);
             } else if (pathCoordinatesArray.length > 1) {
-                // 如果是最後一個點或者特殊情況，使用倒數第二個點到最後一個點的方向
                 pointHeading = google.maps.geometry.spherical.computeHeading(pathCoordinatesArray[pathCoordinatesArray.length - 2], pathCoordinatesArray[pathCoordinatesArray.length - 1]);
             }
             imageUrls.push(createStreetViewUrl(interpolatedPoint, pointHeading, size, fov, pitch, angleOffset));
         }
     }
 
-    // 3. 加入終點圖片 (確保不重複)
     const lastPoint = pathCoordinatesArray[pathCoordinatesArray.length - 1];
     let endPointHeading = 0;
     if (pathCoordinatesArray.length > 1) {
-        // 如果有多個點，方向從倒數第二個點指向最後一個點
         endPointHeading = google.maps.geometry.spherical.computeHeading(pathCoordinatesArray[pathCoordinatesArray.length - 2], lastPoint);
     }
 
-    // 檢查最後一個點是否已經被「每 100 公尺」的迴圈包含進去了
     const lastAddedUrl = imageUrls[imageUrls.length - 1];
     let lastAddedLatLng = null;
     if (lastAddedUrl) {
@@ -502,10 +479,10 @@ function generateStreetViewImageUrls(pathCoordinatesArray) {
         imageUrls.push(createStreetViewUrl(lastPoint, endPointHeading, size, fov, pitch, angleOffset));
     }
 
-
     console.log("生成的街景圖片 URLs:", imageUrls);
     return imageUrls;
 }
+
 const BACKEND_API_ENDPOINT = 'https://your-flask-app-cpr3fyor5q-de.a.run.app/predict_street_scores'
 async function sendImagesToBackendForAllPaths() {
     if (allPathsData.length === 0) {
@@ -514,13 +491,13 @@ async function sendImagesToBackendForAllPaths() {
     }
 
     const resultsDiv = document.getElementById('results-display');
-    const inputCard = document.getElementById('path-name-input-card'); // Get input card reference
+    const inputCard = document.getElementById('path-name-input-card');
     if (inputCard && inputCard.parentNode === resultsDiv) {
-        resultsDiv.removeChild(inputCard); // Temporarily remove it
+        resultsDiv.removeChild(inputCard);
     }
 
     resultsDiv.innerHTML = '';
-    resultsDiv.appendChild(inputCard); // Re-add it
+    resultsDiv.appendChild(inputCard);
     const calculatingPrompt = document.createElement('p');
     calculatingPrompt.textContent = '正在發送圖片並計算所有路徑的分數，請稍候...';
     resultsDiv.appendChild(calculatingPrompt);
@@ -601,10 +578,6 @@ async function sendImagesToBackendForAllPaths() {
     showTemporaryMessage("所有路徑分數計算完成！", 'success');
 }
 
-/**
- * 【新增】: 打開圖片預覽彈出視窗
- * @param {number} pathId - 要預覽的路徑的 ID
- */
 function openImagePreviewModal(pathId) {
     const path = allPathsData.find(p => p.id === pathId);
     if (!path || path.coordinates.length === 0) {
@@ -612,10 +585,8 @@ function openImagePreviewModal(pathId) {
         return;
     }
 
-    // 清空舊圖片
     modalImageContainer.innerHTML = '';
 
-    // 生成圖片 URL
     const imageUrls = generateStreetViewImageUrls(path.coordinates);
     
     if (imageUrls.length === 0) {
@@ -623,7 +594,6 @@ function openImagePreviewModal(pathId) {
         noImageText.textContent = '此路徑無法生成任何街景預覽圖片。';
         modalImageContainer.appendChild(noImageText);
     } else {
-        // 將新圖片加到視窗中
         imageUrls.forEach(url => {
             const img = document.createElement('img');
             img.src = url;
@@ -632,22 +602,17 @@ function openImagePreviewModal(pathId) {
         });
     }
 
-    // 設定視窗標題並顯示
     modalPathName.textContent = `預覽路徑: ${path.name} (${imageUrls.length} 張圖片)`;
     imagePreviewModal.style.display = 'flex';
 }
 
-/**
- * 【新增】: 關閉圖片預覽彈出視窗
- */
 function closeImagePreviewModal() {
     imagePreviewModal.style.display = 'none';
-    // 關閉時清空內容，避免下次打開時看到舊圖片
     modalImageContainer.innerHTML = '';
 }
 
+// web.js
 
-// 將結果顯示在網頁上 (有修改)
 function displayResultsOnWebsite() {
     const resultsDiv = document.getElementById('results-display');
     const inputCard = document.getElementById('path-name-input-card');
@@ -670,18 +635,31 @@ function displayResultsOnWebsite() {
         resultItem.classList.add('result-item');
         resultItem.style.borderLeft = `5px solid ${path.polyline.get('strokeColor')}`;
 
+        // --- 【這就是修改的部分】 ---
+        // 1. 建立新的 header 容器
+        const pathHeader = document.createElement('div');
+        pathHeader.classList.add('path-header');
+
+        // 2. 建立標題 (h3) 並放入 header 容器
         const pathTitle = document.createElement('h3');
-        pathTitle.textContent = `${path.name} (${path.coordinates.length} 個點)`;
-        resultItem.appendChild(pathTitle);
+        pathTitle.textContent = path.name;
+        pathHeader.appendChild(pathTitle);
+
+        // 3. 建立公里數 (p) 並放入 header 容器
+        const pathLengthP = document.createElement('p');
+        pathLengthP.classList.add('path-length');
+        pathLengthP.textContent = `${path.length.toFixed(2)} 公里`;
+        pathHeader.appendChild(pathLengthP);
+
+        // 4. 最後將整個 header 容器放入 resultItem
+        resultItem.appendChild(pathHeader);
+        // --- 【修改結束】 ---
 
         const divider = document.createElement('div');
         divider.classList.add('path-divider');
         resultItem.appendChild(divider);
 
-        const pathLengthP = document.createElement('p');
-        pathLengthP.classList.add('path-length');
-        pathLengthP.textContent = `${path.length.toFixed(2)} 公里`;
-        resultItem.appendChild(pathLengthP);
+        // (原本的 pathLengthP 和 pathTitle 已經在上面處理掉了)
 
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('delete-path-button');
@@ -691,23 +669,37 @@ function displayResultsOnWebsite() {
         resultItem.appendChild(deleteButton);
 
         if (path.isLoading) {
-            // ... (isLoading 狀態顯示無變更) ...
-            const loadingP = document.createElement('p');
-            loadingP.textContent = '正在計算分數，請稍候...';
-            loadingP.classList.add('loading-text');
-            resultItem.appendChild(loadingP);
-        } else if (path.scores.error) {
-            // ... (error 狀態顯示無變更) ...
+            const loadingContainer = document.createElement('div');
+            loadingContainer.classList.add('loading-animation-container');
+            loadingContainer.innerHTML = `
+                <div id="ballsWaveG">
+                    <div id="ballsWaveG_1" class="ballsWaveG"></div>
+                    <div id="ballsWaveG_2" class="ballsWaveG"></div>
+                    <div id="ballsWaveG_3" class="ballsWaveG"></div>
+                    <div id="ballsWaveG_4" class="ballsWaveG"></div>
+                    <div id="ballsWaveG_5" class="ballsWaveG"></div>
+                    <div id="ballsWaveG_6" class="ballsWaveG"></div>
+                    <div id="ballsWaveG_7" class="ballsWaveG"></div>
+                    <div id="ballsWaveG_8" class="ballsWaveG"></div>
+                </div>
+            `;
+            resultItem.appendChild(loadingContainer);
+        } 
+          else if (path.scores.error) {
             const errorP = document.createElement('p');
             errorP.textContent = `計算錯誤: ${path.scores.error}`;
             errorP.classList.add('error-text');
             resultItem.appendChild(errorP);
-        } else if (Object.keys(path.scores).length > 0) {
-             // ... (分數顯示部分無變更) ...
+        } 
+          else if (Object.keys(path.scores).length > 0) {
             const scoreDiv = document.createElement('div');
             scoreDiv.classList.add('scores');
 
             const studyTypes = ['safe', 'lively', 'clean'];
+
+            const scoresArr = studyTypes.map(type => parseFloat(path.scores[type])).filter(score => !isNaN(score));
+            const maxScore = scoresArr.length > 0 ? Math.max(...scoresArr) : -Infinity;
+
             studyTypes.forEach(type => {
                 const scoreItem = document.createElement('div');
                 scoreItem.classList.add('score-item');
@@ -736,9 +728,14 @@ function displayResultsOnWebsite() {
                     
                     scoreItem.appendChild(scoreValueSpan);
 
+                    const isMax = parseFloat(score) === maxScore;
+             
+                    if (isMax) {
+                        scoreItem.classList.add('highest-score');
+                    }
                 } else {
                     const p = document.createElement('p');
-p.textContent = score;
+                    p.textContent = score;
                     scoreItem.appendChild(p);
                 }
                 scoreDiv.appendChild(scoreItem);
@@ -746,11 +743,9 @@ p.textContent = score;
             resultItem.appendChild(scoreDiv);
         }
 
-        // 【新增】: 無論狀態如何，都顯示預覽按鈕
         const previewButton = document.createElement('button');
         previewButton.textContent = '預覽圖片';
         previewButton.classList.add('preview-images-button');
-        // 將 path.id 作為參數傳遞
         previewButton.onclick = () => openImagePreviewModal(path.id); 
         resultItem.appendChild(previewButton);
 
