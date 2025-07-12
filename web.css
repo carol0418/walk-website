@@ -290,12 +290,20 @@ header nav a:hover {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* 陰影加深 */
 }
 
+.path-header {
+    display: flex;                  /* 啟用 Flexbox */
+    justify-content: space-between; /* 關鍵：讓內容物靠左右兩邊對齊 */
+    align-items: flex-start;        /* 頂部對齊，這樣當標題換行時，右邊的公里數不會亂跑 */
+    gap: 15px;                      /* 標題和公里數之間的最小間距 */
+    margin-bottom: 8px;             /* 與下方分隔線的間距 */
+}
+
 .result-item h3 {
-    margin-top: 0;
-    margin-bottom: 8px; /* 調整與下方線的間距 */
-    color: #2e7d32; /* 綠色調的標題 */
-    font-size: 1.5em; /* 更大的字體 */
+    margin: 0; /* 移除舊的 margin */
+    color: #2e7d32;
+    font-size: 1.5em;
     font-weight: 600;
+    word-break: break-all; /* 允許單字在任何地方換行，避免超長英文名不換行 */
 }
 
 /* 路徑名稱下方的分隔線 */
@@ -306,27 +314,26 @@ header nav a:hover {
 
 /* 長度顯示樣式 */
 .result-item .path-length {
-    position: absolute;
-    top: 20px; /* 調整垂直位置 */
-    right: 55px; /* 調整水平位置 */
     font-size: 1em;
-    color: #6c757d; /* 較淺的顏色 */
+    color: #6c757d;
     font-weight: 600;
-    white-space: nowrap; /* 防止文字換行 */
+    white-space: nowrap; 
+    flex-shrink: 0;      /* 防止此元素被壓縮 */
+    padding-top: 5px;
 }
 
 /* 刪除路徑按鈕樣式 */
 .delete-path-button {
     position: absolute;
-    top: 15px; /* 距離頂部 */
-    right: 15px; /* 距離右側 */
+    top: 18px; /* 稍微調整垂直位置以對齊 */
+    right: 15px;
     background: none;
     border: none;
-    color: #dc3545; /* 紅色叉叉 */
-    font-size: 1.6em; /* 大小 */
+    color: #dc3545;
+    font-size: 1.6em;
     cursor: pointer;
     padding: 5px;
-    line-height: 1; /* 確保垂直居中 */
+    line-height: 1;
     transition: color 0.2s ease, transform 0.2s ease;
     z-index: 2;
 }
@@ -393,6 +400,14 @@ header nav a:hover {
     font-weight: bold;
 }
 
+.result-item .score-item.highest-score .score-label {
+    color: #c82333; /* 讓標籤也變色 (可選) */
+}
+
+.result-item .score-item.highest-score .score-integer,
+.result-item .score-item.highest-score .score-decimal {
+    color: #dc3545; /* 醒目的紅色 */
+}
 
 /* --- 輸入卡片樣式 --- */
 .input-card {
@@ -1460,4 +1475,226 @@ figcaption li {
     figcaption ul {
         font-size: 1em;
     }
+}
+
+.loading-animation-container {
+  display: flex;
+  align-items: center;    /* 關鍵：讓內容物垂直置中 */
+  justify-content: center; /* 讓內容物水平置中 */
+  min-height: 50px;      /* 給容器一個最小高度，動畫才有足夠的垂直空間可以置中 */
+  margin-bottom: -10px;
+}
+
+#ballsWaveG{
+	position:relative;
+	width:125px;
+	height:29px;
+}
+
+.ballsWaveG{
+	position:absolute;
+	top:0;
+	background-color:rgb(148,177,111);
+	width:16px;
+	height:16px;
+	animation-name:ballsWaveG;
+		-o-animation-name:ballsWaveG;
+		-ms-animation-name:ballsWaveG;
+		-webkit-animation-name:ballsWaveG;
+		-moz-animation-name:ballsWaveG;
+	animation-duration:1.165s;
+		-o-animation-duration:1.165s;
+		-ms-animation-duration:1.165s;
+		-webkit-animation-duration:1.165s;
+		-moz-animation-duration:1.165s;
+	animation-iteration-count:infinite;
+		-o-animation-iteration-count:infinite;
+		-ms-animation-iteration-count:infinite;
+		-webkit-animation-iteration-count:infinite;
+		-moz-animation-iteration-count:infinite;
+	animation-direction:normal;
+		-o-animation-direction:normal;
+		-ms-animation-direction:normal;
+		-webkit-animation-direction:normal;
+		-moz-animation-direction:normal;
+	border-radius:8px;
+		-o-border-radius:8px;
+		-ms-border-radius:8px;
+		-webkit-border-radius:8px;
+		-moz-border-radius:8px;
+}
+
+#ballsWaveG_1{
+	left:0;
+	animation-delay:0.466s;
+		-o-animation-delay:0.466s;
+		-ms-animation-delay:0.466s;
+		-webkit-animation-delay:0.466s;
+		-moz-animation-delay:0.466s;
+}
+
+#ballsWaveG_2{
+	left:16px;
+	animation-delay:0.5825s;
+		-o-animation-delay:0.5825s;
+		-ms-animation-delay:0.5825s;
+		-webkit-animation-delay:0.5825s;
+		-moz-animation-delay:0.5825s;
+}
+
+#ballsWaveG_3{
+	left:31px;
+	animation-delay:0.699s;
+		-o-animation-delay:0.699s;
+		-ms-animation-delay:0.699s;
+		-webkit-animation-delay:0.699s;
+		-moz-animation-delay:0.699s;
+}
+
+#ballsWaveG_4{
+	left:47px;
+	animation-delay:0.8155s;
+		-o-animation-delay:0.8155s;
+		-ms-animation-delay:0.8155s;
+		-webkit-animation-delay:0.8155s;
+		-moz-animation-delay:0.8155s;
+}
+
+#ballsWaveG_5{
+	left:62px;
+	animation-delay:0.932s;
+		-o-animation-delay:0.932s;
+		-ms-animation-delay:0.932s;
+		-webkit-animation-delay:0.932s;
+		-moz-animation-delay:0.932s;
+}
+
+#ballsWaveG_6{
+	left:78px;
+	animation-delay:1.0485s;
+		-o-animation-delay:1.0485s;
+		-ms-animation-delay:1.0485s;
+		-webkit-animation-delay:1.0485s;
+		-moz-animation-delay:1.0485s;
+}
+
+#ballsWaveG_7{
+	left:94px;
+	animation-delay:1.165s;
+		-o-animation-delay:1.165s;
+		-ms-animation-delay:1.165s;
+		-webkit-animation-delay:1.165s;
+		-moz-animation-delay:1.165s;
+}
+
+#ballsWaveG_8{
+	left:109px;
+	animation-delay:1.2915s;
+		-o-animation-delay:1.2915s;
+		-ms-animation-delay:1.2915s;
+		-webkit-animation-delay:1.2915s;
+		-moz-animation-delay:1.2915s;
+}
+
+
+
+@keyframes ballsWaveG{
+	0%{
+		background-color:rgb(94,138,55);
+	}
+
+	100%{
+		background-color:rgb(191,204,174);
+	}
+}
+
+@-o-keyframes ballsWaveG{
+	0%{
+		background-color:rgb(94,138,55);
+	}
+
+	100%{
+		background-color:rgb(191,204,174);
+	}
+}
+
+@-ms-keyframes ballsWaveG{
+	0%{
+		background-color:rgb(94,138,55);
+	}
+
+	100%{
+		background-color:rgb(191,204,174);
+	}
+}
+
+@-webkit-keyframes ballsWaveG{
+	0%{
+		background-color:rgb(94,138,55);
+	}
+
+	100%{
+		background-color:rgb(191,204,174);
+	}
+}
+
+@-moz-keyframes ballsWaveG{
+	0%{
+		background-color:rgb(94,138,55);
+	}
+
+	100%{
+		background-color:rgb(191,204,174);
+	}
+}
+
+/* --- 操作指南 (note.html) 頁面樣式 - 使用 class "guide-content" --- */
+.guide-content h2 {
+ font-size: 2rem;
+ margin-top:50px;
+ text-align: center; 
+ color: #2e7d32;
+ font-weight: 700;
+}
+
+.guide-content section {
+  margin: 6rem auto; /* 保留區塊間的上下間距，並水平置中 */
+  max-width: 1350px; /* 限制內容最大寬度 */
+  overflow: auto;    /* 清除浮動，確保版面正常 */
+  padding: 0 2rem;   /* 保留左右內邊距，避免內容在小螢幕貼齊邊緣 */
+}
+
+/* 圖片樣式 */
+.guide-content section img {
+  float: right; /* 讓圖片浮動到右側 */
+  width: 55%;   /* 圖片寬度 55% */
+  max-width: 600px; /* 圖片最大寬度 */
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+  margin-left: 3rem;   /* 圖片左側與文字的間距 */
+  margin-bottom: 1rem;
+}
+
+/* 標題樣式 */
+.guide-content section h1 {
+    font-size: 2rem;
+    color: #2e7d32;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+/* 段落與列表文字樣式 */
+.guide-content section p,
+.guide-content section li {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #343a40;
+    margin-bottom: 1rem;
+}
+
+/* 列表樣式 */
+.guide-content section ol,
+.guide-content section ul {
+    padding-left: 2rem;
 }
